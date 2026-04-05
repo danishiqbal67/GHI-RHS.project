@@ -487,13 +487,13 @@ body.active-popup .popup{
 }
 
 .pgmc-appointment{
-    margin-top: 3%;display: flex;justify-content: space-evenly;background: #e8e9eb;
+    margin-top: 3%;display: flex;justify-content: space-evenly;background: #e8e9eb;margin-bottom: 3%;
 }
 .pgmc-appointment h2{
     margin-top: 3%;font-size: 1.8em;font-family: 'poppins';font-weight: 700;
 }
 .appointment1{
-    width: 40vw;height: 40vh;padding: 2%;border: 1px solid grey;border-radius: 12px; background: #fff; margin-top: 2%;
+    width: 40vw;height: 45vh;padding: 2%;border: 1px solid grey;border-radius: 12px; background: #fff; margin-top: 2%;margin-bottom: 2%;
 }
 .appointment1 label{
     font-family: 'roboto';display: inline-block;font-size: 0.8em;font-weight: 500;color: #222222d0;
@@ -503,6 +503,15 @@ body.active-popup .popup{
 }
 .form1 input{
     padding: 3%;margin-top: 1%;
+}
+.form1 select{
+    padding: 3%;margin-top: 1%;
+}
+.pgmc-appointment button{
+    margin-top: 3.7%;margin-left: 35%;width: 30%;padding: 2%;background: #ff6600ce;border-radius: 20px;color: #fff;border: none;
+}
+.pgmc-appointment button:hover{
+    background: #FF6700;cursor: pointer;
 }
 /* pgmc popup styling ends */
 
