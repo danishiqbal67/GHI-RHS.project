@@ -7,6 +7,11 @@
     <title>GHI&RAS</title>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        .pgmcpopup{
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,7 +47,7 @@
             style="width: 96vw; height: 47vh; background-color: #e8e9eb; border-radius: 12px; margin-top: 2vh;">
             <div class="sigmaboi">
                 <div class="cont1">
-                    <img src="bag2.jpg" alt="patnahospimg">
+                    <img src="bag2.jpg" alt="patnahospimg" id="open-pgmcpopup" >
                     <p>Patna Govt Medical College</p>
                 </div>
                 <div class="cont1">
@@ -137,16 +142,18 @@
         </div>
     </div>
 
-    <div class="pgmc-popup">
+    <div class="pgmcpopup">
         <button class="close-btn">&times;</button>
-        <div class="pgmc-popup-headbox">
+        <div class="pgmc-popup-headbox" style="background-color: #fff;">
             <div class="pgmc-img-section">
                 <div class="starboi1">
                     <h2>Patna Government <br>Medical College</h2>
                     <p>Redefining the standards of modern healthcare through continuous innovation <br> and human
                         connection.
                     </p>
-                    <button>Book an Appointment</button>
+                    <a href="#apmtform">
+                      <button>Book an Appointment</button>
+                    </a>  
                 </div>
                 <div class="starboi2">
                     <img src="doctor1.png" alt="Doctor's photo" style="width: 23vw;height: 55vh;padding-top: 4%;">
@@ -301,7 +308,7 @@
 
             </div>
 
-            <div class="pgmc-appointment">
+            <div class="pgmc-appointment" id="apmtform" >
                 <h2>Book your Appointment Now </h2>
                 <div class="appointment1">
                     <div class="form1">
@@ -351,6 +358,15 @@
 
         document.querySelector(".popup .close-btn").addEventListener("click", function () {
             document.body.classList.remove("active-popup");
+        });
+
+
+         document.querySelector("#open-pgmcpopup").addEventListener("click", function () {
+            document.body.classList.add("active-pgmcpopup");
+        });
+
+        document.querySelector(".pgmcpopup .close-btn").addEventListener("click", function () {
+            document.body.classList.remove("active-pgmcpopup");
         });
     </script>
 </body>

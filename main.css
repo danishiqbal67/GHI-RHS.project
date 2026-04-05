@@ -335,17 +335,54 @@ body.active-popup .popup{
 }
 
 /* pgmc popup styling */
-.pgmc-popup{
+.pgmcpopup{
     position: absolute;
+    top: -100%;
+    transform: translate(0%, -50%);
     width: 96vw;
     margin-left: 2%;
     border: 2px solid grey;
     border-radius: 12px;
+    opacity: 0;
     max-height: 92vh;
     overflow: hidden;
     overflow-y: scroll;
+    transition: top 0ms ease-in-out 300ms,
+                opacity 300ms ease-in-out,
+                margin-top 300ms ease-in-out;
 }
-.pgmc-popup .close-btn{
+body.active-pgmcpopup{
+    overflow: hidden;
+}
+body.active-pgmcpopup .box1{
+    filter: blur(5px);
+    background: rgba(0,0,0,0.08);
+    transition:filter 0ms ease-in-out 0ms;
+}
+body.active-pgmcpopup .emergency-box{
+    filter: blur(5px);
+    background: rgba(0,0,0,0.08);
+    transition:filter 0ms ease-in-out 0ms;
+}
+body.active-pgmcpopup .headline2{
+    filter: blur(5px);
+    background: rgba(0,0,0,0.08);
+    transition:filter 0ms ease-in-out 0ms;
+}
+body.active-pgmcpopup .box7{
+    filter: blur(5px);
+    background: rgba(0,0,0,0.08);
+    transition:filter 0ms ease-in-out 0ms;
+}
+body.active-pgmcpopup .pgmcpopup{
+    top: 50%;
+    opacity: 1;
+    margin-top: 0px;
+    transition: top 0ms ease-in-out 0ms,
+                opacity 300ms ease-in-out,
+                margin-top 300ms ease-in-out;
+}
+.pgmcpopup .close-btn{
     position: absolute;
     right: 12px;
     top: 12px;
@@ -487,7 +524,7 @@ body.active-popup .popup{
 }
 
 .pgmc-appointment{
-    margin-top: 3%;display: flex;justify-content: space-evenly;background: #e8e9eb;margin-bottom: 3%;
+    margin-top: 3%;display: flex;justify-content: space-evenly;background: #e8e9eb;
 }
 .pgmc-appointment h2{
     margin-top: 3%;font-size: 1.8em;font-family: 'poppins';font-weight: 700;
