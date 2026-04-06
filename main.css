@@ -438,6 +438,9 @@ body.active-pgmcpopup .pgmcpopup{
 .amount-box5{
     width: 12vw;background:#CCF1FF;padding: 1%;margin-right: 1.5%;border-radius:10px; border:1px solid grey;
 }
+.amount-box1:hover{border: 1px solid blue;} .amount-box2:hover{border: 1px solid blue;}
+.amount-box3:hover{border: 1px solid blue;} .amount-box4:hover{border: 1px solid blue;}
+.amount-box5:hover{border: 1px solid blue;}
 .amount-box5 h3{
     font-size: 1em;
 }
