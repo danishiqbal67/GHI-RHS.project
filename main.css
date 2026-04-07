@@ -492,6 +492,9 @@ body.active-pgmcpopup .pgmcpopup{
 .pgmc-doctors-box1{
     display: flex;justify-content: space-evenly; margin-top: 3%;
 }
+.pgmc-doctors-box2{
+    display: flex;justify-content: space-evenly;margin-top: 2%;
+}
 .pgmc-doctors-box{
     width: 22.5%;border: 1px solid grey;background: #e8e9eb;border-radius: 12px;
 }
