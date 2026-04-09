@@ -628,7 +628,21 @@ body.active-mchpopup .mchpopup{
     width: 96vw;max-height: 60vh; background: linear-gradient( 160deg, #ff89899e, #a9ff684f, #eeaecaab, #94BBE9);display: flex;justify-content: space-around;
 }
 /* mch popup styling ends */
-
+.doctorsprofile{
+    margin-top: 3%;width: 96vw;margin-left: 2%;height: 35vh;background: #e8e9eb;border-radius: 12px;
+}
+.doctorsprofile h2{
+    margin-left: 3%;padding-top: 2%;font-family: 'poppins';font-weight: 700;font-size: 2em;
+}
+#dp1{
+    margin-left: 3%;font-family: 'poppins';font-size: 0.9em;font-weight: 400;color: #5b5b5b;
+}
+.doctorsearchbar{
+    margin-left: 5%;margin-top: 5%
+}
+.doctorsearchbar input{
+    padding: 1%;padding-right: 3%;width: 20vw;
+}
 
 
 

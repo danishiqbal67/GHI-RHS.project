@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <style>
-        .pgmcpopup{
+        .pgmcpopup {
             scroll-behavior: smooth;
         }
-        .mchpopup{
+
+        .mchpopup {
             scroll-behavior: smooth;
         }
     </style>
@@ -50,11 +51,11 @@
             style="width: 96vw; height: 47vh; background-color: #e8e9eb; border-radius: 12px; margin-top: 2vh;">
             <div class="sigmaboi">
                 <div class="cont1">
-                    <img src="bag2.jpg" alt="patnahospimg" id="open-pgmcpopup" >
+                    <img src="bag2.jpg" alt="patnahospimg" id="open-pgmcpopup">
                     <p>Patna Govt Medical College</p>
                 </div>
                 <div class="cont1">
-                    <img src="bag2.jpg" alt="patnahospimg" id="open-mchpopup" >
+                    <img src="bag2.jpg" alt="patnahospimg" id="open-mchpopup">
                     <p>Muzaffarpur Civil Hospital</p>
                 </div>
                 <div class="cont1">
@@ -155,8 +156,8 @@
                         connection.
                     </p>
                     <a href="#apmtform">
-                      <button>Book an Appointment</button>
-                    </a>  
+                        <button>Book an Appointment</button>
+                    </a>
                 </div>
                 <div class="starboi2">
                     <img src="doctor1.png" alt="Doctor's photo" style="width: 23vw;height: 55vh;padding-top: 4%;">
@@ -359,7 +360,7 @@
 
             </div>
 
-            <div class="pgmc-appointment" id="apmtform" >
+            <div class="pgmc-appointment" id="apmtform">
                 <h2>Book your Appointment Now </h2>
                 <div class="appointment1">
                     <div class="form1">
@@ -402,7 +403,7 @@
     </div>
 
     <!-- muzaffapur civil hospital popup -->
-      <div class="mchpopup">
+    <div class="mchpopup">
         <button class="close-btn">&times;</button>
         <div class="pgmc-popup-headbox" style="background-color: #fff;">
             <div class="mch-img-section">
@@ -412,8 +413,8 @@
                         connection.
                     </p>
                     <a href="#apmtform1">
-                      <button>Book an Appointment</button>
-                    </a>  
+                        <button>Book an Appointment</button>
+                    </a>
                 </div>
                 <div class="starboi2">
                     <img src="doctor1.png" alt="Doctor's photo" style="width: 23vw;height: 55vh;padding-top: 4%;">
@@ -616,7 +617,7 @@
 
             </div>
 
-            <div class="pgmc-appointment" id="apmtform1" >
+            <div class="pgmc-appointment" id="apmtform1">
                 <h2>Book your Appointment Now </h2>
                 <div class="appointment1">
                     <div class="form1">
@@ -656,9 +657,18 @@
 
         </div>
 
-     </div>
+    </div>
 
     <!-- muzaffarpur civil hospital popup html ends -->
+
+
+    <div class="doctorsprofile">
+        <h2>Search for any Doctor</h2>
+        <p id="dp1">Get the information of your known doctors here and check the availaibility. </p>
+        <div class="doctorsearchbar">
+            <input class="input" placeholder="Search here" required="" type="text">
+        </div>
+    </div>
 
 
     <script>
@@ -671,7 +681,7 @@
         });
 
 
-         document.querySelector("#open-pgmcpopup").addEventListener("click", function () {
+        document.querySelector("#open-pgmcpopup").addEventListener("click", function () {
             document.body.classList.add("active-pgmcpopup");
         });
 
