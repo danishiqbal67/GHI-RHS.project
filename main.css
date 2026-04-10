@@ -629,7 +629,7 @@ body.active-mchpopup .mchpopup{
 }
 /* mch popup styling ends */
 .doctorsprofile{
-    margin-top: 3%;width: 96vw;margin-left: 2%;height: 35vh;background: #e8e9eb;border-radius: 12px;
+    margin-top: 3%;width: 96vw;margin-left: 2%;height: 40vh;background: #e8e9eb;border-radius: 12px;
 }
 .doctorsprofile h2{
     margin-left: 3%;padding-top: 2%;font-family: 'poppins';font-weight: 700;font-size: 2em;
@@ -638,12 +638,30 @@ body.active-mchpopup .mchpopup{
     margin-left: 3%;font-family: 'poppins';font-size: 0.9em;font-weight: 400;color: #5b5b5b;
 }
 .doctorsearchbar{
-    margin-left: 5%;margin-top: 5%
+    margin-left: 3%;margin-top: 5%
 }
 .doctorsearchbar input{
-    padding: 1%;padding-right: 3%;width: 20vw;
+    padding: 1%;padding-right: 3%;width: 20vw;border-radius: 30px;border: none;
 }
-
+.doctorsearchbar i{
+    margin-left: -3%;align-items: center;cursor: pointer;
+}
+.dsb1{
+    width: 48vw;height: 40vh;background:#b5c6e0;position: relative;left: 50%;top:-63%;border-radius:12px;
+}
+.dsb1 p{
+    margin-left: 50%;
+}
+.dsb1 h3{
+    margin-left: 50%;margin-top: -41%;font-family: 'poppins';font-weight: 600;font-size: 1.2em;
+}
+#dp8{color:#3b3b3bc9; font-family: 'poppins'; font-size: 0.8em;font-weight: 500;}
+#dp2{ margin-top: 3%;font-family: 'poppins';font-weight: 600;}
+#dp3{color: #3b3b3bc9;font-family: 'poppins';font-size: 0.8em;font-weight: 500;}
+#dp4{font-family: 'poppins';margin-top: 3%;font-size: 0.8em;background: #caffbf;width: 6vw; padding: 0.5%; border-radius: 20px;padding-left: 2%;padding-right: 2%;}
+#dp5{font-family: 'poppins';font-size: 0.9em;font-weight: 500;margin-top: 3%;}
+#dp7{font-family: 'poppins';font-size: 0.8em;font-weight: 500;}
+#dp6{font-family: 'poppins';font-size: 0.8em;font-weight: 500; margin-top: 2%;}
 
 
 
