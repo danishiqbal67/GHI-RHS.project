@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins' , 'sans-serif';
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background: url(bg1\ copy.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.signup-box{
+    position:relative;
+    height: 550px;
+    width: 400px;
+    background-color:linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0));
+    border: 2px solid rgba(255, 255, 255,.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0,0, 0.37);
+    
+}
+h2{
+    text-align: center;
+    color: #fff;
+    font-weight: 500;
+}
+.input-box{
+    position: relative;
+    width: 310px;
+    margin: 20px 40px;
+    border-bottom: 1.5px solid #fff;
+}
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px;
+}
+.input-box input{
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+    padding: 0 35px 0 5px;
+}
+.input-box .icon {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    line-height: 57px;
+
+}
+.your-region{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    margin: 25px 40px;
+}
+.terms-condition{
+    font-size: 0.75em;
+    text-align: center;
+    color: #fff;
+    
+}
+.terms-condition label input{
+    margin-right: 5px;
+}
+.terms-condition a {
+    text-decoration: none;
+}
+.terms-condition a:hover{
+    text-decoration: underline;
+}
+
+button{
+    width: 320px;
+    height: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #000;
+    font-weight: 500;
+    margin: 25px 40px;
+}
+.signin-link{
+    font-size: .85em;
+    color: white;
+    text-align: center;
+}
+.signin-link p a{
+    text-decoration: none;
+}
+.signin-link p a:hover{
+    text-decoration: underline;
+}
+
+#state{
+    margin-right: 10px;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+
+}
