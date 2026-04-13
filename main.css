@@ -1159,6 +1159,9 @@ body.active-mchpopup .mchpopup {
     font-size: 15px;
     transition: all 0.5s ease;
 }
+.regbtn a{
+    text-decoration: none;color: #000;
+}
 
 .regbtn:hover {
     letter-spacing: 0.8px;
