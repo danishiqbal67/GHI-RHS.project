@@ -8,132 +8,97 @@
 
 .navbar {
     width: 96%;
-    height: 50px;
+    height: 5.9vh;
     margin: 15px;
-    border-radius: 18px;
+    border-radius: 18px;border: 1px solid grey;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    /* border: 1.5px solid rgba(255,255,255,0.18); */
-    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.37);
-    display: flex;
+    display: flex;justify-content: space-between;
 }
-
 .nav-text {
     font-family: 'poppins';
-    font-size: small;
+    margin: 0%;
+    font-size: 0.78em;font-weight: 500;
     color: black;
-    padding-top: 3px;
 }
-
-.hospital-icon {
-    margin: 10px;
-    padding-top: 2.5px;
-    padding-left: 13px;
-}
-
 .nav-left {
-    display: flex;
+    margin-left: 2%;height: 5.9vh;display: flex;align-items: center;
 }
 
 .nav-right {
-    padding-left: 300px;
+    display: flex;align-items: center;margin-right: 2%;
 }
-
-
 .nav-list {
     list-style: none;
     display: flex;
     gap: 20px;
     font-family: 'poppins';
-    color: black;
-    font-size: small;
-    padding-top: 3px;
+    font-size: 0.8em;
+}
+.nav-list a{
+    text-decoration: none;color: #000;
+}
+.nav-list a:hover{
+    text-decoration: underline;
+}
 
-}
-.nav-end {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 378px;
-    
-}
-:root{
-    --width-of-switch: 3.5em;
-    --height-of-switch: 2em;
-    --size-of-icon: 1.4em;
-    --slider-offset: 0.3em;
-}
-.switch input{
-    width: 0;
-    height: 0;
-    opacity: 0;
 
-}
-.switch{
-    display: block;
-    position: relative;
-    width: var(--width-of-switch);
-    height: var(--height-of-switch);
-}
-.slider-round{
-    position: absolute;
-    content: "";
-    height: var(--size-of-icon, 1.4em);
-    width: var(--size-of-icon, 1.4em);
-    border-radius: 20px;
-    left: var(--slider-offset, 0.3em);
-    top: 50%;
-    transform: translateY(-50%);
-    transition: 0.4s;
-}
 /* main-content styling */
-.h2-1{
+.heading{
+    display: flex;margin-left: 5%;margin-top: 0.5%;
+}
+.head1{
+    width: 3vw;display: flex;justify-content: center;margin-top: 0.55%;
+}
+.head2{
+    width: 20vw;
+}
+.h2-1{ 
     font-family: "poppins" ;
     font-weight: 600;
-    padding-left: 13px;
-    margin-bottom: 0px;
+    margin-bottom: 0px;margin-left: 0.5%;
     display: inline;
 }
-
 .heading i{
-    padding-left: 50px;
-    padding-top: 15px;
     font-size: 25px;
-
 }
 .heading p{
     margin-top: 0px;
-    font-size: 12px;
-    padding-left: 100px;
+    font-size: 12px;margin-left: 0.5%;
     font-family: "poppins";
-    
 }
+
+
 .rectangle1{
     display: flex;
     justify-content: center;
 }
 .content2{
-    height: 1133px;
+    height: 138.5vh;
     width: 96%;
-    margin-top: 20px;
+    margin-top: 1.8%;
     background-color: #e8e9eb;
     border-radius: 20px;
+    display: flex;flex-direction: row;
+}
+.content21{
+    width: 78vw;
+}
+.content22{
+    width: 25vw;
 }
 .content2-top{
     display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    margin-left: 20px;
+    flex-direction: row;margin-left: 2%;margin-top: 2%;width: 74vw;
 }
 .box1{
-    width: 25%;
-    height: 150px;
+    width: 33%;
+    height: 19vh;
     background-color: #fff;
-    margin: 15px;
+    margin: 1.5%;
     border-radius: 13px;
     display: flex;
-    flex-direction:column ;
+    flex-direction:column;
     justify-content: space-between;
 }
 .box1 p{
@@ -141,12 +106,11 @@
 }
 .box1-number{
     color: green;
-    margin-left: 21px;
-    margin-top: 3px;
-    margin-bottom: 5px;
+    margin-left: 7%;
+    margin-top: 1%;
+    margin-bottom: 2%;
     font-weight: 500;
-    font-size: larger;
-
+    font-size: 1.2em;
 }
 .box1-bottom{
     box-sizing: border-box;
@@ -156,41 +120,40 @@
     margin-bottom: 0px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
-    height: 45px;
-
+    height: 5.3vh;
+    display: flex;align-items: center;
 }
 .car{
-    margin-top: 20px;
+    margin-top: 2%;display: flex;justify-content: space-between;
 }
 .car i{
-    padding-left: 180px;
+    padding-right: 4%;
 }
+
 #p1{
-    margin-top: 15px;
-    margin-bottom: 0;
-    margin-left: 20px;
-    font-size: small;
+    margin: 0;
+    margin-left: 6.5%;
+    font-size: 0.85em;
     color: #363737; 
     display: inline;
-
 }
 #p2{
-    padding-left:0px;
-    font-size: small;
+    margin: 0;
+    margin-left: 5%;
+    font-size: 0.85em;
     display: inline;
 }
 .box1-bottom i{
-    margin:14px;
-    margin-left: 25px;
+    margin-left: 7.5%;
 }
 
 /* box-2 css */
 
 .box2{
-    width: 25%;
-    height: 150px;
+    width: 33%;
+    height: 19vh;
     background-color: #fff;
-    margin: 15px;
+    margin: 1.5%;
     border-radius: 13px;
     display: flex;
     flex-direction:column ;
@@ -201,11 +164,11 @@
 }
 .box2-number{
     color: red;
-    margin-left: 21px;
-    margin-top: 3px;
-    margin-bottom: 5px;
+    margin-left: 7%;
+    margin-top: 1%;
+    margin-bottom: 2%;
     font-weight: 500;
-    font-size: larger;
+    font-size: 1.2em;
 
 }
 .box2-bottom{
@@ -216,40 +179,22 @@
     margin-bottom: 0px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
-    height: 45px;
-
+    height: 5.3vh;
+    display: flex;align-items: center;
 }
 .car{
     margin-top: 20px;
 }
-.car i{
-    padding-left: 180px;
-}
-#p1{
-    margin-top: 15px;
-    margin-bottom: 0;
-    margin-left: 20px;
-    font-size: small;
-    color: #363737; 
-    display: inline;
-
-}
-#p2{
-    padding-left:0px;
-    font-size: small;
-    display: inline;
-}
 .box2-bottom i{
-    margin:14px;
-    margin-left: 25px;
+    margin-left:7.5%;
 }
 
 /* box-3 css */
 .box3{
-    width: 25%;
-    height: 150px;
+    width: 33%;
+    height: 19vh;
     background-color: #fff;
-    margin: 15px;
+    margin: 1.5%;
     border-radius: 13px;
     display: flex;
     flex-direction:column ;
@@ -260,12 +205,11 @@
 }
 .box3-number{
     color: green;
-    margin-left: 21px;
-    margin-top: 3px;
-    margin-bottom: 5px;
+    margin-left: 7%;
+    margin-top: 1%;
+    margin-bottom: 2%;
     font-weight: 500;
-    font-size: larger;
-
+    font-size: 1.2em;
 }
 .box3-bottom{
     box-sizing: border-box;
@@ -275,80 +219,54 @@
     margin-bottom: 0px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
-    height: 45px;
-
+    height: 5.3vh;
+    display: flex;align-items: center;
 }
 .car{
     margin-top: 20px;
 }
-.car i{
-    padding-left: 180px;
-}
-#p1{
-    margin-top: 15px;
-    margin-bottom: 0;
-    margin-left: 20px;
-    font-size: small;
-    color: #363737; 
-    display: inline;
-
-}
-#p2{
-    padding-left:0px;
-    font-size: small;
-    display: inline;
-}
 .box3-bottom i{
-    margin:14px;
-    margin-left: 25px;
+    margin-left:7.5%;
 }
 /* box-4 css */
 
 .box4{
-    width: 78%;
-    height: 510px;
+    margin-left: 3.5%;
+    width: 71.8vw;
+    height:61vh;
     background-color: #fff;
-    margin-top: 15px;
-    margin-left: 35px;
+    margin-top: 2%;
     border-radius: 13px;
 }
 #h2-2{
     font-family: 'poppins' ;
     font-weight: 600;
-    font-size: 20px;
-    padding-left: 33px;
-    padding-top: 20px;
+    font-size: 1.25em;
+    padding-left: 4%;
+    padding-top: 2%;
+    padding-bottom: 2%;
     margin:0;
-    /* display: inline; */
 }
 
 .head-bar{
     width: 96%;
-    height: 50px;
+    height: 6vh;
     background-color: #e8e9eb;
-    margin-left: 20px;
-    margin-top: 20px;
-    border-radius: 11px;
-    margin-top: 0;
+    margin-left: 2%;
+    margin-top: 0%;
+    border-radius: 12px;
 }
 .head-bar-list{
-    list-style: none;
-    display:flex;
-    font-family: 'roboto';
-    gap: 147px;
-    text-align: center;
-    padding-top: 17px;
-    font-size: 14px;
-    color: #222222;
-    padding-left: 70px;
-    padding-right: 70px;
-    color: #0C2B4E;
+    margin: 0;padding: 0;list-style: none;display: flex;
+    align-items: center;justify-content:space-around;height: 6vh;
+    font-family: 'roboto';font-size: 0.95em;color: #0c2b4e;
 }
 .head-bar-bottom{
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-
+    justify-content: space-evenly;
+}
+.hb-container{
+    width: 18.8%;
 }
 #dr-type{
     font-size: 11px;
@@ -357,80 +275,71 @@
 
 }
 #container-text1{
-   padding-left: 65px;
-   padding-bottom: 20px;
+   text-align: justify;
+   padding-left: 22%;
+   padding-bottom: 11%;
    color: #0C2B4E;
 }
 #container-text2{
-    padding-left: 50px;
-    padding-bottom: 2.5px;
+    text-align: justify;
+    padding-left: 19%;
+    padding-bottom: 2%;
     color: #0C2B4E;
 }
 #container-text3{
-    margin-left: 40px;
-    margin-bottom: 37px;
+    text-align: justify;
+    padding-left: 20%;
+    padding-bottom: 11.5%;
     color: #0C2B4E;
 }
 #container-text4{
-    padding-left: 130px;
-    padding-bottom: 2.5px;
+    text-align: justify;
+    padding-left: 31%;
+    padding-bottom: 2%;
     color: #0C2B4E;
 }
 #container-text5{
-    margin-left: 110px;
-    margin-bottom: 37px;
+    text-align: justify;
+    padding-left: 35%;
+    padding-bottom: 11.5%;
     color: #0C2B4E;
 }
-
 #dr-time{
     font-size: 10px ;
     font-family: 'roboto';
     color: #636363;
 }
-.hb-container{
-    margin-top: 20px;
-}  
-
-.hb-container div{
-    background-color: #ff7f7fa3;
-    width: 85px;
-    text-align: center;
-    color: red;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    border-radius: 15px;
-    font-family: 'roboto';
-    font-size: 13.5px;
+.content-bottom{
+    display: flex;
+    justify-content: space-between;
+    width: 71.8vw;
+    margin-left: 3.5%;
+    margin-top: 3.5%;
 }
 
 .box5{
-    width: 520px;
-    height: 350px;
     background-color: #fff;
-    margin-top: 25px;
-    margin-left: 35px;
     border-radius: 13px;
+    width:49%;
+    height: 40vh;
 }
 #box5-text{
     margin-bottom: 0;
-    padding-top: 15px;
-    padding-left: 40px;
+    padding-top: 1%;
+    padding-left: 8%;
     font-family: 'poppins';
     font-weight: 600;
-    font-size: 20px;
+    font-size: 1.3em;
 }
 .box5-content{
     display: flex;
-    flex-direction: row;
-    gap: 60px;
-    margin-top: 15px;
+    justify-content: space-evenly;
+    margin-top:1.8%;
 }
 .progress-bar{
-    width: 200px;
-    height: 200px;
-    padding-top: 20px;
-    padding-left: 50px;
-    /* background-color: red; */
+    width: 44%;
+    height: 33vh;
+    padding-top: 3.7%;
 }
 .outer{
     height: 160px;
@@ -491,18 +400,15 @@ svg{
     font-weight: 500;
     margin-top: 20px;
 }
+
+
 .box6{
-    width: 520px;
-    height: 350px;
     background-color: #fff;
-    margin-top: 25px;
-    margin-left: 48px;
     border-radius: 13px;
+    width:49%;
+    height: 40vh;
 }
-.content-bottom{
-    display: flex;
-    flex-direction: row;
-}
+
 .box6-photo{
     width: 260px;
     margin-left: 20px;
