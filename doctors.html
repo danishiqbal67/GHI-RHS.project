@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCare Pro — Doctors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --g-50:  #f7f7f8;
+    --g-100: #ebebed;
+    --g-200: #d4d4d8;
+    --g-300: #b0b0b8;
+    --g-400: #888892;
+    --g-500: #666670;
+    --g-600: #4b4b55;
+    --g-700: #363640;
+    --g-800: #232328;
+    --g-900: #131316;
+
+    --bg: #f2f2f4;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --text-main: #18181b;
+    --text-muted: #6b6b75;
+    --text-light: #a0a0aa;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --font: 'DM Sans', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  }
+
+  html, body { min-height: 100%; font-family: var(--font); background: var(--bg); color: var(--text-main); font-size: 14px; }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 32px 28px 60px; }
+
+  /* Top controls */
+  .top-controls {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 10px; margin-bottom: 24px;
+  }
+
+  .btn-filter {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    color: var(--text-muted); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-filter:hover { background: var(--g-50); border-color: var(--g-200); }
+  .btn-filter i { font-size: 16px; }
+
+  .btn-status {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    color: var(--text-main); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-status:hover { background: var(--g-50); }
+  .btn-status i { font-size: 14px; color: var(--text-muted); }
+
+  .btn-add {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--g-700);
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    color: #fff; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-add:hover { background: var(--g-600); }
+  .btn-add i { font-size: 16px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; align-items: center; gap: 0;
+    border-bottom: 1.5px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .tab {
+    padding: 10px 22px;
+    font-size: 13.5px; font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--text-main); }
+  .tab.active {
+    color: var(--g-800);
+    border-bottom-color: var(--g-700);
+  }
+
+  /* Doctors grid */
+  .doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  /* Doctor card */
+  .doctor-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .doctor-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--g-300);
+    transform: translateY(-2px);
+  }
+  .doctor-card.selected {
+    border-color: var(--g-600);
+    box-shadow: 0 0 0 2px var(--g-200), var(--shadow-md);
+  }
+
+  .card-top {
+    padding: 14px 16px 10px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .doctor-name { font-size: 14.5px; font-weight: 600; color: var(--text-main); line-height: 1.2; }
+
+  .avail-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+    margin-top: 6px;
+  }
+  .avail-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+  .badge-available { background: rgba(0, 128, 0, 0.199); color: green; }
+  .badge-available::before { background: var(--g-500); }
+  .badge-unavailable { background: rgba(255, 0, 0, 0.272); color:red; }
+  .badge-unavailable::before { background: var(--g-300); }
+
+  .more-btn {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; border: none; background: transparent;
+    color: var(--text-light); cursor: pointer; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .more-btn:hover { background: var(--g-100); color: var(--text-muted); }
+  .more-btn i { font-size: 18px; }
+
+  /* Doctor photo area */
+  .doctor-photo {
+    width: 100%;
+    height: 200px;
+    background: var(--g-50);
+    display: flex; align-items: flex-end; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .doctor-photo .avatar-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    padding-bottom: 0;
+  }
+  .avatar-circle {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 600;
+    margin-bottom: 0;
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  }
+  /* Silhouette SVG style */
+  .doctor-silhouette {
+    width: 100%; height: 100%;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .silhouette-wrap {
+    width: 140px; height: 190px;
+    position: relative; bottom: 0;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+
+  /* Card bottom */
+  .card-bottom { padding: 14px 16px; border-top: 1px solid var(--g-50); }
+  .specialty { font-size: 14px; font-weight: 600; text-align: center; color: var(--text-main); margin-bottom: 4px; }
+  .schedule { font-size: 11.5px; color: var(--text-muted); text-align: center; line-height: 1.5; margin-bottom: 14px; }
+
+  .card-actions { display: flex; align-items: center; gap: 8px; }
+  .action-icon-btn {
+    width: 34px; height: 34px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-muted); flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .action-icon-btn:hover { background: var(--g-50); border-color: var(--g-300); color: var(--g-700); }
+  .action-icon-btn i { font-size: 17px; }
+
+  .btn-assign {
+    flex: 1;
+    padding: 7px 0;
+    border: 1px solid var(--g-200);
+    border-radius: var(--radius-sm);
+    background: var(--g-50);
+    font-family: var(--font); font-size: 12.5px; font-weight: 500;
+    color: var(--g-700); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-assign:hover { background: var(--g-100); border-color: var(--g-300); color: var(--g-800); }
+
+  /* Grey photo backgrounds */
+  .photo-bg-1, .photo-bg-2, .photo-bg-3, .photo-bg-4,
+  .photo-bg-5, .photo-bg-6, .photo-bg-7, .photo-bg-8 { background: var(--g-100); }
+
+  @media (max-width: 1100px) { .doctors-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 760px) { .doctors-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .doctors-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+
+
+<body>
+<div class="page">
+
+  <!-- Top controls -->
+  <div class="top-controls">
+    <button class="btn-filter"><i class="ti ti-adjustments-horizontal"></i></button>
+    <button class="btn-status">All Status <i class="ti ti-chevron-down"></i></button>
+    <button class="btn-add"><i class="ti ti-plus"></i> Add New Doctor</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">All</div>
+    <div class="tab">General Medicine</div>
+    <div class="tab">Pediatrics</div>
+    <div class="tab">Cardiology</div>
+    <div class="tab">Orthopedics</div>
+    <div class="tab">Dermatology</div>
+    <div class="tab">Neurology</div>
+  </div>
+
+  <!-- Doctors grid -->
+  <div class="doctors-grid">
+
+    <!-- Card 1: Dr. Amelia Hart -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Amelia Hart</div>
+          <span class="avail-badge badge-available">Available</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-1">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="28" fill="#c8c8cc"/>
+          <ellipse cx="110" cy="200" rx="68" ry="60" fill="#b8b8c0"/>
+          <rect x="76" y="148" width="68" height="60" fill="#b8b8c0"/>
+          <rect x="82" y="108" width="56" height="45" fill="#d8d8dc" rx="4"/>
+          <line x1="110" y1="108" x2="110" y2="153" stroke="#b8b8c0" stroke-width="1.5"/>
+          <path d="M90 118 Q110 130 130 118" stroke="#a0a0a8" stroke-width="2" fill="none"/>
+          <circle cx="99" cy="76" r="4" fill="#606068"/>
+          <circle cx="121" cy="76" r="4" fill="#606068"/>
+          <path d="M101 88 Q110 94 119 88" stroke="#707078" stroke-width="1.5" fill="none"/>
+          <path d="M82 68 Q90 60 110 62 Q130 60 138 68" stroke="#484850" stroke-width="2.5" fill="none"/>
+          <path d="M82 68 Q80 80 84 90" stroke="#484850" stroke-width="1.5" fill="none"/>
+          <path d="M138 68 Q140 80 136 90" stroke="#484850" stroke-width="1.5" fill="none"/>
+          <path d="M82 70 Q76 86 80 102 Q84 112 92 112" stroke="#a8a8b0" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M138 70 Q144 86 140 102 Q136 112 128 112" stroke="#a8a8b0" stroke-width="8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Cardiology</div>
+        <div class="schedule">Monday – Friday (08:00 – 14:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Dr. Rizky Pratama -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Rizky Pratama</div>
+          <span class="avail-badge badge-available">Available</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-2">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="30" fill="#b8b8c0"/>
+          <ellipse cx="110" cy="200" rx="70" ry="62" fill="#c0c0c8"/>
+          <rect x="76" y="148" width="68" height="60" fill="#c0c0c8"/>
+          <rect x="82" y="106" width="56" height="48" fill="#d4d4d8" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="154" stroke="#c0c0c8" stroke-width="1.5"/>
+          <circle cx="99" cy="74" r="4" fill="#484850"/>
+          <circle cx="121" cy="74" r="4" fill="#484850"/>
+          <path d="M102 86 Q110 92 118 86" stroke="#585860" stroke-width="1.5" fill="none"/>
+          <path d="M84 65 Q110 54 136 65 Q138 78 136 88" stroke="#282830" stroke-width="2.5" fill="none"/>
+          <path d="M84 65 Q82 78 84 88" stroke="#282830" stroke-width="2" fill="none"/>
+          <rect x="104" y="100" width="12" height="6" rx="2" fill="#d4d4d8"/>
+          <ellipse cx="93" cy="125" rx="8" ry="10" fill="#b8b8c0" opacity="0.7"/>
+          <ellipse cx="127" cy="125" rx="8" ry="10" fill="#b8b8c0" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">General Medicine</div>
+        <div class="schedule">Monday – Saturday (09:00 – 17:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Dr. Sophia Liang -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Sophia Liang</div>
+          <span class="avail-badge badge-available">Available</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-3">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="28" fill="#c0c0c8"/>
+          <ellipse cx="110" cy="200" rx="68" ry="60" fill="#b0b0b8"/>
+          <rect x="78" y="148" width="64" height="60" fill="#b0b0b8"/>
+          <rect x="84" y="106" width="52" height="46" fill="#d0d0d4" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="152" stroke="#b0b0b8" stroke-width="1.5"/>
+          <circle cx="100" cy="74" r="3.5" fill="#505058"/>
+          <circle cx="120" cy="74" r="3.5" fill="#505058"/>
+          <path d="M102 86 Q110 92 118 86" stroke="#606068" stroke-width="1.5" fill="none"/>
+          <path d="M86 64 Q110 55 134 64" stroke="#303038" stroke-width="2" fill="none"/>
+          <path d="M134 64 Q136 76 134 88" stroke="#303038" stroke-width="1.5" fill="none"/>
+          <path d="M86 64 Q84 76 86 88" stroke="#303038" stroke-width="1.5" fill="none"/>
+          <path d="M86 70 Q78 80 80 96 Q84 108 90 108" stroke="#a0a0a8" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M134 70 Q142 80 140 96 Q136 108 130 108" stroke="#a0a0a8" stroke-width="8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Pediatrics</div>
+        <div class="schedule">Monday – Friday (10:00 – 18:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Dr. Daniel Obeng -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Daniel Obeng</div>
+          <span class="avail-badge badge-unavailable">Unavailable</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-4">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="30" fill="#a8a8b0"/>
+          <ellipse cx="110" cy="200" rx="70" ry="62" fill="#b0b0b8"/>
+          <rect x="76" y="148" width="68" height="60" fill="#b0b0b8"/>
+          <rect x="82" y="106" width="56" height="48" fill="#c8c8cc" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="154" stroke="#b0b0b8" stroke-width="1.5"/>
+          <circle cx="99" cy="75" r="4" fill="#383840"/>
+          <circle cx="121" cy="75" r="4" fill="#383840"/>
+          <path d="M101 88 Q110 94 119 88" stroke="#484850" stroke-width="1.5" fill="none"/>
+          <path d="M84 63 Q110 52 136 63 Q138 76 134 90" stroke="#202028" stroke-width="3" fill="none"/>
+          <path d="M84 63 Q82 76 86 90" stroke="#202028" stroke-width="2" fill="none"/>
+          <ellipse cx="110" cy="60" rx="30" ry="10" fill="#202028"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Orthopedics</div>
+        <div class="schedule">Mon – Thu (08:00 – 12:00) · Sat (09:00 – 13:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: Dr. Nina Alvarez -->
+    <div class="doctor-card selected">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Nina Alvarez</div>
+          <span class="avail-badge badge-available">Available</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-5">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="28" fill="#c0c0c8"/>
+          <ellipse cx="110" cy="200" rx="68" ry="60" fill="#b8b8c0"/>
+          <rect x="78" y="148" width="64" height="60" fill="#b8b8c0"/>
+          <rect x="84" y="106" width="52" height="46" fill="#d0d0d8" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="152" stroke="#b8b8c0" stroke-width="1.5"/>
+          <circle cx="100" cy="74" r="3.5" fill="#404048"/>
+          <circle cx="120" cy="74" r="3.5" fill="#404048"/>
+          <path d="M102 87 Q110 93 118 87" stroke="#505058" stroke-width="1.5" fill="none"/>
+          <rect x="95" y="68" width="10" height="14" rx="4" fill="none" stroke="#808090" stroke-width="1.5"/>
+          <rect x="115" y="68" width="10" height="14" rx="4" fill="none" stroke="#808090" stroke-width="1.5"/>
+          <line x1="105" y1="75" x2="115" y2="75" stroke="#808090" stroke-width="1.5"/>
+          <path d="M86 65 Q110 56 134 65" stroke="#282830" stroke-width="2" fill="none"/>
+          <path d="M86 65 Q84 77 86 90" stroke="#282830" stroke-width="1.5" fill="none"/>
+          <path d="M134 65 Q136 77 134 90" stroke="#282830" stroke-width="1.5" fill="none"/>
+          <path d="M86 70 Q78 84 82 100 Q86 110 92 110" stroke="#909098" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M134 70 Q142 84 138 100 Q134 110 128 110" stroke="#909098" stroke-width="9" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Dermatology</div>
+        <div class="schedule">Tuesday – Saturday (13:00 – 20:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6: Dr. Arjun Mehta -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Arjun Mehta</div>
+          <span class="avail-badge badge-unavailable">Unavailable</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-6">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="30" fill="#b0b0b8"/>
+          <ellipse cx="110" cy="200" rx="70" ry="62" fill="#a8a8b0"/>
+          <rect x="76" y="148" width="68" height="60" fill="#a8a8b0"/>
+          <rect x="82" y="106" width="56" height="48" fill="#c8c8d0" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="154" stroke="#a8a8b0" stroke-width="1.5"/>
+          <circle cx="99" cy="75" r="4" fill="#383840"/>
+          <circle cx="121" cy="75" r="4" fill="#383840"/>
+          <path d="M101 88 Q110 95 119 88" stroke="#484850" stroke-width="1.5" fill="none"/>
+          <path d="M84 65 Q110 55 136 65 Q138 78 134 92" stroke="#181820" stroke-width="2.5" fill="none"/>
+          <path d="M84 65 Q82 78 86 92" stroke="#181820" stroke-width="2" fill="none"/>
+          <rect x="88" y="54" width="44" height="14" rx="7" fill="#181820"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Pulmonology</div>
+        <div class="schedule">Monday – Friday (08:00 – 16:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 7: Dr. Laila Hassan -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Laila Hassan</div>
+          <span class="avail-badge badge-available">Available</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-7">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="28" fill="#b8b8c0"/>
+          <ellipse cx="110" cy="200" rx="68" ry="60" fill="#c0c0c8"/>
+          <rect x="78" y="148" width="64" height="60" fill="#c0c0c8"/>
+          <rect x="84" y="106" width="52" height="46" fill="#d0d0d8" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="152" stroke="#c0c0c8" stroke-width="1.5"/>
+          <circle cx="100" cy="74" r="3.5" fill="#404048"/>
+          <circle cx="120" cy="74" r="3.5" fill="#404048"/>
+          <path d="M102 87 Q110 93 118 87" stroke="#505058" stroke-width="1.5" fill="none"/>
+          <path d="M80 72 Q82 52 110 50 Q138 52 140 72 Q144 92 140 110 Q134 124 126 128 Q118 132 110 132 Q102 132 94 128 Q86 124 80 110 Q76 92 80 72 Z" fill="#d8d8dc"/>
+          <path d="M80 72 Q76 80 76 100 Q78 118 86 128 Q94 136 110 136 Q126 136 134 128 Q142 118 144 100 Q144 80 140 72" fill="#d0d0d4"/>
+          <ellipse cx="110" cy="72" rx="32" ry="24" fill="#c8c8cc"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Neurology</div>
+        <div class="schedule">Monday – Friday (09:00 – 15:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 8: Dr. Marco Silva -->
+    <div class="doctor-card">
+      <div class="card-top">
+        <div>
+          <div class="doctor-name">Dr. Marco Silva</div>
+          <span class="avail-badge badge-unavailable">Unavailable</span>
+        </div>
+        <button class="more-btn"><i class="ti ti-dots"></i></button>
+      </div>
+      <div class="doctor-photo photo-bg-8">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <circle cx="110" cy="76" r="30" fill="#b0b0b8"/>
+          <ellipse cx="110" cy="200" rx="70" ry="62" fill="#b8b8c0"/>
+          <rect x="76" y="148" width="68" height="60" fill="#b8b8c0"/>
+          <rect x="82" y="106" width="56" height="48" fill="#ccccD0" rx="4"/>
+          <line x1="110" y1="106" x2="110" y2="154" stroke="#b8b8c0" stroke-width="1.5"/>
+          <circle cx="99" cy="75" r="4" fill="#404048"/>
+          <circle cx="121" cy="75" r="4" fill="#404048"/>
+          <path d="M101 88 Q110 94 119 88" stroke="#505058" stroke-width="1.5" fill="none"/>
+          <path d="M84 63 Q110 53 136 63" stroke="#202028" stroke-width="2.5" fill="none"/>
+          <path d="M84 63 Q82 76 84 90" stroke="#202028" stroke-width="2" fill="none"/>
+          <path d="M136 63 Q138 76 136 90" stroke="#202028" stroke-width="2" fill="none"/>
+          <path d="M90 60 Q100 56 110 56 Q120 56 130 60" stroke="#202028" stroke-width="3" fill="none"/>
+          <path d="M84 75 Q82 82 84 90" stroke="#989898" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M136 75 Q138 82 136 90" stroke="#989898" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-bottom">
+        <div class="specialty">Radiology</div>
+        <div class="schedule">Monday – Sunday (07:00 – 13:00)</div>
+        <div class="card-actions">
+          <button class="action-icon-btn"><i class="ti ti-message-circle"></i></button>
+          <button class="action-icon-btn"><i class="ti ti-phone"></i></button>
+          <button class="btn-assign">Assign Patient</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.doctor-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('button')) return;
+      document.querySelectorAll('.doctor-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    });
+  });
+</script>
+</body>
+</html>

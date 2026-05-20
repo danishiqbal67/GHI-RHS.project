@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare Pro — Appointment Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --burg-50: #f7f7f8;
+      --burg-100: #ebebed;
+      --burg-200: #d4d4d8;
+      --burg-300: #b0b0b8;
+      --burg-400: #888892;
+      --burg-500: #666670;
+      --burg-600: #4b4b55;
+      --burg-700: #363640;
+      --burg-800: #232328;
+      --burg-900: #131316;
+
+      --sidebar-w: 240px;
+      --header-h: 64px;
+      --bg: #f2f2f4;
+      --surface: #ffffff;
+      --border: rgba(0, 0, 0, 0.08);
+      --text-main: #18181b;
+      --text-muted: #6b6b75;
+      --text-light: #a0a0aa;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --font: 'DM Sans', sans-serif;
+      --font-display: 'Playfair Display', serif;
+      --shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text-main);
+      font-size: 14px;
+    }
+
+    /* Layout */
+    .shell {
+      display: block;
+      min-height: 100vh;
+    }
+
+    /* Main */
+    .main {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Content */
+    .content {
+      padding: 24px 28px;
+      flex: 1;
+    }
+
+    /* Stat cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .stat-card.today::before {
+      background: var(--burg-400);
+    }
+
+    .stat-card.completed::before {
+      background: #2a9d6e;
+    }
+
+    .stat-card.ongoing::before {
+      background: #e06c2c;
+    }
+
+    .stat-card.canceled::before {
+      background: #cc3030;
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-icon.today-ic {
+      background: var(--burg-100);
+      color: var(--burg-700);
+    }
+
+    .stat-icon.completed-ic {
+      background: #e8f8f2;
+      color: #2a9d6e;
+    }
+
+    .stat-icon.ongoing-ic {
+      background: #fff3eb;
+      color: #e06c2c;
+    }
+
+    .stat-icon.canceled-ic {
+      background: #fceaea;
+      color: #cc3030;
+    }
+
+    .stat-icon i {
+      font-size: 17px;
+    }
+
+    .stat-num {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .stat-badge.up {
+      background: #e8f8f2;
+      color: #1e7a54;
+    }
+
+    .stat-badge.down {
+      background: #fceaea;
+      color: #a82020;
+    }
+
+    .stat-badge i {
+      font-size: 11px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Charts row */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .chart-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .period-badge {
+      font-size: 12px;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg);
+    }
+
+    .chart-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .chart-big-num {
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .type-legend {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .type-dot-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .type-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .type-name {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .type-pct {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .type-count {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Table card */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .btn-outline:hover {
+      background: var(--burg-50);
+      border-color: var(--burg-200);
+      color: var(--burg-700);
+    }
+
+    .btn-primary {
+      padding: 6px 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--burg-700);
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--burg-600);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      background: var(--bg);
+    }
+
+    th {
+      padding: 11px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    th .sort-icon {
+      font-size: 10px;
+      margin-left: 3px;
+      opacity: 0.5;
+    }
+
+    td {
+      padding: 14px 14px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: var(--burg-50);
+    }
+
+    .patient-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .patient-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--burg-100);
+      border: 2px solid var(--burg-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--burg-700);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .patient-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .patient-name {
+      font-weight: 500;
+      font-size: 13.5px;
+    }
+
+    .patient-id {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .doctor-name {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .doctor-dept {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .notes-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+
+    .notes-cell i {
+      font-size: 15px;
+      color: var(--text-light);
+    }
+
+    .date-time {
+      font-size: 13px;
+    }
+
+    .time-slot {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status-badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .s-completed {
+      background: #e8f8f2;
+      color: #1e7a54;
+    }
+
+    .s-completed::before {
+      background: #2a9d6e;
+    }
+
+    .s-ongoing {
+      background: var(--burg-100);
+      color: var(--burg-800);
+      border: 1px solid var(--burg-300);
+    }
+
+    .s-ongoing::before {
+      background: var(--burg-500);
+    }
+
+    .s-scheduled {
+      background: #eef3ff;
+      color: #2d55b0;
+    }
+
+    .s-scheduled::before {
+      background: #4a72e8;
+    }
+
+    .s-canceled {
+      background: #fceaea;
+      color: #a82020;
+    }
+
+    .s-canceled::before {
+      background: #cc3030;
+    }
+
+    .checkbox-cell {
+      width: 40px;
+    }
+
+    input[type="checkbox"] {
+      accent-color: var(--burg-600);
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+    }
+    .top-nav{
+      display: flex;justify-content: space-between;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="shell">
+    <div class="top-nav">
+      <p style="margin-left: 5%;margin-top: 2%;font-size: 1.8em;font-weight: 600;margin-bottom: 0.7%;">Appointments </p>
+      <div class="tn1">
+        <div class="abc"><i class="fa-solid fa-circle-user"></i></div>
+        <p style="margin-top: 14%;width: 15vw;font-weight: 600;">Danish Iqbal <i class="fa-solid fa-ellipsis-vertical"></i></p>
+        <span style="font-size: 0.85em;color:#4b4b55;">Admin</span>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+
+      <div class="content">
+
+        <!-- Stat cards -->
+        <div class="stats-grid">
+          <div class="stat-card today">
+            <div class="stat-header">
+              <span class="stat-label">Today's Appointments</span>
+              <div class="stat-icon today-ic"><i class="ti ti-clipboard-list"></i></div>
+            </div>
+            <div class="stat-num">52</div>
+            <div class="stat-footer">
+              <span class="stat-badge up"><i class="ti ti-arrow-up-right"></i>+2.45%</span>
+              <span class="stat-desc">Bed capacity: <strong>180</strong></span>
+            </div>
+          </div>
+
+          <div class="stat-card completed">
+            <div class="stat-header">
+              <span class="stat-label">Completed</span>
+              <div class="stat-icon completed-ic"><i class="ti ti-circle-check"></i></div>
+            </div>
+            <div class="stat-num">28</div>
+            <div class="stat-footer">
+              <span class="stat-badge up"><i class="ti ti-arrow-up-right"></i>+0.5%</span>
+              <span class="stat-desc">Incomplete: <strong>24</strong></span>
+            </div>
+          </div>
+
+          <div class="stat-card ongoing">
+            <div class="stat-header">
+              <span class="stat-label">Ongoing</span>
+              <div class="stat-icon ongoing-ic"><i class="ti ti-clock-hour-4"></i></div>
+            </div>
+            <div class="stat-num">18</div>
+            <div class="stat-footer">
+              <span class="stat-badge down"><i class="ti ti-arrow-down-right"></i>+0.25%</span>
+              <span class="stat-desc">Slower than yesterday</span>
+            </div>
+          </div>
+
+          <div class="stat-card canceled">
+            <div class="stat-header">
+              <span class="stat-label">Canceled</span>
+              <div class="stat-icon canceled-ic"><i class="ti ti-circle-x"></i></div>
+            </div>
+            <div class="stat-num">6</div>
+            <div class="stat-footer">
+              <span class="stat-badge up"><i class="ti ti-arrow-up-right"></i>+1.3%</span>
+              <span class="stat-desc">Higher than yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts row -->
+        <div class="charts-row">
+          <!-- Trends chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Appointment Trends</div>
+              <div class="period-badge">This Week <i class="ti ti-chevron-down" style="font-size:12px"></i></div>
+            </div>
+            <div class="chart-sub">Total Appointments</div>
+            <div class="chart-big-num">320</div>
+            <div style="position: relative; width: 100%; height: 180px;">
+              <canvas id="trendChart" role="img" aria-label="Weekly appointment trends bar chart">Weekly appointments:
+                Mon 30, Tue 45, Wed 25, Thu 40, Fri 35, Sat 48, Sun 52</canvas>
+            </div>
+          </div>
+
+          <!-- Appointment type -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Appointment Type</div>
+              <div class="icon-btn"><i class="ti ti-dots"></i></div>
+            </div>
+            <div class="type-legend">
+              <div class="type-item">
+                <div class="type-dot-row">
+                  <div class="type-dot" style="background:#363640"></div><span class="type-name">Consultation</span>
+                </div>
+                <div class="type-pct">50%</div>
+                <div class="type-count">26 Patients</div>
+              </div>
+              <div class="type-item">
+                <div class="type-dot-row">
+                  <div class="type-dot" style="background:#666670"></div><span class="type-name">Follow-up</span>
+                </div>
+                <div class="type-pct">25%</div>
+                <div class="type-count">13 Patients</div>
+              </div>
+              <div class="type-item">
+                <div class="type-dot-row">
+                  <div class="type-dot" style="background:#b0b0b8"></div><span class="type-name">Surgery</span>
+                </div>
+                <div class="type-pct">15%</div>
+                <div class="type-count">8 Patients</div>
+              </div>
+              <div class="type-item">
+                <div class="type-dot-row">
+                  <div class="type-dot" style="background:#d4d4d8"></div><span class="type-name">Telemedicine</span>
+                </div>
+                <div class="type-pct">10%</div>
+                <div class="type-count">5 Patients</div>
+              </div>
+            </div>
+            <div style="position: relative; width: 100%; height: 160px;">
+              <canvas id="typeChart" role="img" aria-label="Appointment type distribution bar chart">Consultation 50%,
+                Follow-up 25%, Surgery 15%, Telemedicine 10%</canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointments table -->
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">Appointments</div>
+            <div class="table-actions">
+              <button class="btn-outline"><i class="ti ti-filter" style="font-size:13px"></i> Filter</button>
+              <button class="btn-outline"><i class="ti ti-download" style="font-size:13px"></i> Export</button>
+              <button class="btn-primary"><i class="ti ti-plus" style="font-size:13px"></i> New Appointment</button>
+              <div class="period-badge" style="font-size:12px">This Week <i class="ti ti-chevron-down"
+                  style="font-size:11px"></i></div>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th class="checkbox-cell"><input type="checkbox"></th>
+                <th>Name <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Phone Number <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Doctor <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Appointment Type <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Notes <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Date <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Status <i class="ti ti-arrows-sort sort-icon"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">AP</div>
+                    <div>
+                      <div class="patient-name">Alicia Perth</div>
+                      <div class="patient-id">#PT-2035-001</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 812-3456-7102</td>
+                <td>
+                  <div class="doctor-name">Dr. Amelia Hart</div>
+                  <div class="doctor-dept">Cardiology</div>
+                </td>
+                <td>Consultation</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> Chest pain check</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">08:30 – 09:00</div>
+                </td>
+                <td><span class="status-badge s-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">BK</div>
+                    <div>
+                      <div class="patient-name">Bima Kurnia</div>
+                      <div class="patient-id">#PT-2035-024</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 813-2255-8941</td>
+                <td>
+                  <div class="doctor-name">Dr. Rizky Pratama</div>
+                  <div class="doctor-dept">General Medicine</div>
+                </td>
+                <td>Follow-up</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> Post flu review</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">09:00 – 09:20</div>
+                </td>
+                <td><span class="status-badge s-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">CW</div>
+                    <div>
+                      <div class="patient-name">Clara Wright</div>
+                      <div class="patient-id">#PT-2035-053</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 811-6677-2043</td>
+                <td>
+                  <div class="doctor-name">Dr. Sophia Liang</div>
+                  <div class="doctor-dept">Pediatrics</div>
+                </td>
+                <td>Consultation</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> Fever &amp; cough</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">09:30 – 10:00</div>
+                </td>
+                <td><span class="status-badge s-ongoing">Ongoing</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">DW</div>
+                    <div>
+                      <div class="patient-name">Daniel Wong</div>
+                      <div class="patient-id">#PT-2035-078</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 812-9012-4477</td>
+                <td>
+                  <div class="doctor-name">Dr. Daniel Obeng</div>
+                  <div class="doctor-dept">Orthopedics</div>
+                </td>
+                <td>Surgery</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> Knee arthroscopy</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">10:00 – 12:00</div>
+                </td>
+                <td><span class="status-badge s-scheduled">Scheduled</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">ES</div>
+                    <div>
+                      <div class="patient-name">Erica Smith</div>
+                      <div class="patient-id">#PT-2035-091</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 815-3399-1280</td>
+                <td>
+                  <div class="doctor-name">Dr. Nina Alvarez</div>
+                  <div class="doctor-dept">Dermatology</div>
+                </td>
+                <td>Follow-up</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> Acne treatment plan</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">11:00 – 11:20</div>
+                </td>
+                <td><span class="status-badge s-scheduled">Scheduled</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-avatar">FR</div>
+                    <div>
+                      <div class="patient-name">Francis Rowe</div>
+                      <div class="patient-id">#PT-2035-129</div>
+                    </div>
+                  </div>
+                </td>
+                <td>+62 819-4455-7832</td>
+                <td>
+                  <div class="doctor-name">Dr. Amelia Hart</div>
+                  <div class="doctor-dept">Cardiology</div>
+                </td>
+                <td>Follow-up</td>
+                <td>
+                  <div class="notes-cell"><i class="ti ti-notes"></i> ECG result discussion</div>
+                </td>
+                <td>
+                  <div class="date-time">12 March 2035</div>
+                  <div class="time-slot">13:00 – 13:20</div>
+                </td>
+                <td><span class="status-badge s-completed">Completed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const burgColors = {
+      900: '#131316', 800: '#232328', 700: '#363640',
+      600: '#4b4b55', 500: '#666670', 400: '#888892',
+      300: '#b0b0b8', 200: '#d4d4d8', 100: '#ebebed', 50: '#f7f7f8'
+    };
+
+    new Chart(document.getElementById('trendChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Appointments',
+          data: [30, 45, 25, 40, 35, 48, 52],
+          backgroundColor: [
+            burgColors[100], burgColors[200], burgColors[100],
+            burgColors[300], burgColors[200], burgColors[400], burgColors[500]
+          ],
+          borderColor: [
+            burgColors[400], burgColors[500], burgColors[400],
+            burgColors[600], burgColors[500], burgColors[700], burgColors[700]
+          ],
+          borderWidth: 2,
+          borderRadius: 6,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }, tooltip: {
+            backgroundColor: burgColors[800],
+            titleColor: '#fff', bodyColor: '#fad8de',
+            padding: 10, cornerRadius: 8,
+            callbacks: { label: ctx => ` ${ctx.raw} Appointments` }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#7a5762', font: { size: 12 } }, border: { display: false } },
+          y: { grid: { color: 'rgba(139,31,58,0.06)' }, ticks: { color: '#b58a96', font: { size: 11 }, stepSize: 15 }, border: { display: false } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('typeChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Consultation', 'Follow-up', 'Surgery', 'Telemedicine'],
+        datasets: [{
+          label: 'Patients',
+          data: [26, 13, 8, 5],
+          backgroundColor: [burgColors[700], burgColors[500], burgColors[300], burgColors[100]],
+          borderColor: [burgColors[800], burgColors[600], burgColors[400], burgColors[200]],
+          borderWidth: 2,
+          borderRadius: 6,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }, tooltip: {
+            backgroundColor: burgColors[800],
+            titleColor: '#fff', bodyColor: '#fad8de',
+            padding: 10, cornerRadius: 8,
+          }
+        },
+        scales: {
+          x: { grid: { color: 'rgba(139,31,58,0.06)' }, ticks: { color: '#b58a96', font: { size: 11 } }, border: { display: false } },
+          y: { grid: { display: false }, ticks: { color: '#7a5762', font: { size: 12 } }, border: { display: false } }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
